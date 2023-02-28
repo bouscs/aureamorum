@@ -1,5 +1,5 @@
-import { EventEmitter } from '$/event/EventEmitter';
-import { Signal } from '$/signal/Signal';
+import { EventEmitter } from '../event';
+import { Signal } from '../signal';
 export class Clock extends EventEmitter {
     animationFrame = 0;
     minTimeStep = 1 / 200;

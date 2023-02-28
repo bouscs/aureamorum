@@ -1,4 +1,4 @@
-import { Signal } from '$/signal/Signal'
+import { Signal } from '../signal'
 import { EventEmitter } from './EventEmitter'
 
 export class EventListener<Events, EventName extends keyof Events> {

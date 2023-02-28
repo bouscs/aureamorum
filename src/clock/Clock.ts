@@ -1,7 +1,5 @@
-import { EventEmitter } from '$/event/EventEmitter'
-import { EventList } from '$/event/types'
-import { bound } from '$/util/bound'
-import { Signal } from '$/signal/Signal'
+import { EventEmitter } from '../event'
+import { Signal } from '../signal'
 
 export interface ClockEvents {
   update: (delta: number, time: number) => void

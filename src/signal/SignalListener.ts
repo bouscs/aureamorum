@@ -1,4 +1,4 @@
-import { EventEmitter } from '$/event/EventEmitter'
+import { EventEmitter } from '../event'
 import { Signal } from './Signal'
 
 export class SignalListener<Callback extends (...args: any[]) => void> {

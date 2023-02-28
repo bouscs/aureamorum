@@ -9,15 +9,13 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "repeater14-h",
-    //"types": ["vite/client"],
+    "outDir": "./",
     "isolatedModules": true,
     "declaration": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "$/*": ["./*"]
-    }
+    "resolveJsonModule": true
   },
-  "include": ["."]
+  "include": ["src"],
+  "exclude": []
 }

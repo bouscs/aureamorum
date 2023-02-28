@@ -1,4 +1,4 @@
-import { Signal } from '$/signal';
+import { Signal } from '../signal';
 export async function wait(...args) {
     if (typeof args[0] === 'number') {
         return new Promise(resolve => {

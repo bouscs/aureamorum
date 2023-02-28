@@ -1,4 +1,4 @@
-import { EventEmitter } from '$/event/EventEmitter';
+import { EventEmitter } from '../event';
 export class SignalListener {
     callback;
     signal;
