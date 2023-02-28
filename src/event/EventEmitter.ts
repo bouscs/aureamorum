@@ -36,4 +36,14 @@ export class EventEmitter<Events> {
   ) {
     this._e3.emit(eventName as any, ...args)
   }
+
+  async waitFor<EventName extends keyof Events>(
+    eventName: EventName
+  ): Promise<EventArgs<Events, EventName>> {
+    return new Promise(resolve => {
+      this.once(eventName, ((...args: any[]) => {
+        resolve(args as any)
+      }) as any)
+    })
+  }
 }

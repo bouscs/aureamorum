@@ -1,2 +1,5 @@
 export * from './wait'
 export * from './bound'
+export * from './types'
+export * from './getObjectPath'
+export * from './setObjectPath'
