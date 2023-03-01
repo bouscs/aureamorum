@@ -22,6 +22,7 @@ export class Clock extends EventEmitter<ClockEvents> {
   private lastTime = 0
 
   private fixedStepAccumulator = 0
+  private fixedStepCounter = 0
 
   private _time = 0
   private _delta = 0
@@ -38,6 +39,7 @@ export class Clock extends EventEmitter<ClockEvents> {
     this.doTick = true
     this.running = true
     this.fixedStepAccumulator = 0
+    this.fixedStepCounter = 0
     this._time = 0
     this._delta = 0
     this.lastTime = performance.now()
@@ -86,8 +88,9 @@ export class Clock extends EventEmitter<ClockEvents> {
           this.fixedStepAccumulator %= this.fixedTimeStep * 1000
 
           for (let i = 0; i < frames; i++) {
-            this.emit('fixedUpdate', this.time)
-            this.fixedUpdateSignal.call(this.time)
+            this.fixedStepCounter++
+            this.emit('fixedUpdate', this.fixedStepCounter)
+            this.fixedUpdateSignal.call(this.fixedStepCounter)
           }
         }
 

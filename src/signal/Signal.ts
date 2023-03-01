@@ -1,5 +1,9 @@
 import { SignalListener } from './SignalListener'
 
+export interface SignalOptions {
+  once?: boolean
+}
+
 export class Signal<
   Callback extends (
     ...args: any[]
@@ -15,7 +19,7 @@ export class Signal<
     return this._called
   }
 
-  constructor(once = false) {
+  constructor(options: SignalOptions = {}) {
     let _resolve!: () => void
 
     super(resolve => {
@@ -25,7 +29,7 @@ export class Signal<
     this.once((() => {
       _resolve()
     }) as Callback)
-    this.isOnce = once
+    this.isOnce = Boolean(options.once)
   }
 
   then<TResult1 = void, TResult2 = never>(
@@ -45,23 +49,23 @@ export class Signal<
     }).then(onfulfilled, onrejected)
   }
 
-  async call(...args: Parameters<Callback>) {
+  call(...args: Parameters<Callback>) {
     if (this.isOnce && this._called) return
 
-    const callListener = async (listener: Callback) => {
-      const result = await listener(...args)
+    const callListener = (listener: Callback) => {
+      const result = listener(...args)
 
       if (typeof result === 'function') {
-        await result(new SignalListener(this, listener))
+        result(new SignalListener(this, listener))
       }
     }
 
     for (const listener of this._listeners) {
-      await callListener(listener)
+      callListener(listener)
     }
 
     for (const listener of this._onceListeners) {
-      await callListener(listener)
+      callListener(listener)
     }
 
     this._onceListeners.clear()

@@ -2,7 +2,7 @@ import EventEmitter3 from 'eventemitter3'
 import { EventArgs } from './types'
 import { EventListener } from './EventListener'
 
-export class EventEmitter<Events> {
+export class EventEmitter<Events = Record<string, (...args: any[]) => void>> {
   private _e3 = new EventEmitter3()
 
   on<EventName extends keyof Events>(
