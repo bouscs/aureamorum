@@ -15,15 +15,15 @@ export class SignalListener<Callback extends (...args: any[]) => void> {
     this.signal.off(this.callback)
   }
 
-  until(signal: Signal): Signal
+  until<T>(promise: Promise<T>): Promise<T>
   until<E>(emitter: EventEmitter<E>, event: keyof E): void
-  until(emitter: any, event?: any): void | Signal {
+  until(emitter: any, event?: any): void | Promise<any> {
     if (emitter instanceof EventEmitter) {
       emitter.once(event, this.off.bind(this))
     } else {
-      const signal = emitter as Signal
-      signal.once(this.off.bind(this))
-      return signal
+      const promise = emitter as Promise<any>
+
+      return promise.then(this.off.bind(this))
     }
   }
 }
