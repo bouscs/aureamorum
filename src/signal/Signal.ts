@@ -1,4 +1,5 @@
 import { SignalListener } from './SignalListener'
+import { SignalCallback } from './types'
 
 export interface SignalOptions {
   once?: boolean
@@ -7,7 +8,9 @@ export interface SignalOptions {
 export class Signal<
   Callback extends (
     ...args: any[]
-  ) => void | ((listener: SignalListener<Callback>) => void) = () => void
+  ) => void | ((listener: SignalListener<Callback>) => void) = () =>
+    | void
+    | ((listener: SignalListener<any>) => void)
 > extends Promise<void> {
   private _listeners: Set<Callback> = new Set()
   private _onceListeners: Set<Callback> = new Set()
@@ -78,16 +81,16 @@ export class Signal<
     }
   }
 
-  on(listener: Callback): SignalListener<Callback> {
-    this._listeners.add(listener)
+  on(listener: SignalCallback<Callback>): SignalListener<Callback> {
+    this._listeners.add(listener as any)
 
-    return new SignalListener(this, listener)
+    return new SignalListener(this, listener as any) as any
   }
 
-  once(listener: Callback) {
-    this._onceListeners.add(listener)
+  once(listener: SignalCallback<Callback>) {
+    this._onceListeners.add(listener as any)
 
-    return new SignalListener(this, listener)
+    return new SignalListener(this, listener as any) as any
   }
 
   off(listener: Callback) {

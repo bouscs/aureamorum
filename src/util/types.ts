@@ -31,3 +31,5 @@ export type NestedPartial<T> = {
     ? NestedPartial<T[P]>
     : T[P]
 }
+
+export type Class<T = any> = { new (...args: any[]): T }
