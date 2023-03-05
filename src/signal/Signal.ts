@@ -6,14 +6,12 @@ export interface SignalOptions {
 }
 
 export class Signal<
-  Callback extends (
-    ...args: any[]
-  ) => void | ((listener: SignalListener<Callback>) => void) = () =>
+  Callback extends (...args: any[]) => void = () =>
     | void
     | ((listener: SignalListener<any>) => void)
 > extends Promise<void> {
-  private _listeners: Set<Callback> = new Set()
-  private _onceListeners: Set<Callback> = new Set()
+  private _listeners: Set<SignalCallback<Callback>> = new Set()
+  private _onceListeners: Set<SignalCallback<Callback>> = new Set()
   private _called = false
 
   isOnce: boolean
@@ -55,11 +53,11 @@ export class Signal<
   call(...args: Parameters<Callback>) {
     if (this.isOnce && this._called) return
 
-    const callListener = (listener: Callback) => {
+    const callListener = (listener: SignalCallback<Callback>) => {
       const result = listener(...args)
 
       if (typeof result === 'function') {
-        result(new SignalListener(this, listener))
+        result(new SignalListener<Callback>(this, listener))
       }
     }
 
@@ -82,18 +80,18 @@ export class Signal<
   }
 
   on(listener: SignalCallback<Callback>): SignalListener<Callback> {
-    this._listeners.add(listener as any)
+    this._listeners.add(listener)
 
-    return new SignalListener(this, listener as any) as any
+    return new SignalListener(this, listener)
   }
 
   once(listener: SignalCallback<Callback>) {
-    this._onceListeners.add(listener as any)
+    this._onceListeners.add(listener)
 
-    return new SignalListener(this, listener as any) as any
+    return new SignalListener(this, listener)
   }
 
-  off(listener: Callback) {
+  off(listener: SignalCallback<Callback>) {
     this._listeners.delete(listener)
     this._onceListeners.delete(listener)
   }

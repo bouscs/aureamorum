@@ -1,12 +1,13 @@
 import { EventEmitter } from '../event'
 import { Signal } from './Signal'
+import { SignalCallback } from './types'
 
 export class SignalListener<Callback extends (...args: any[]) => void> {
-  callback: Callback
+  callback: SignalCallback<Callback>
 
   signal: Signal<Callback>
 
-  constructor(signal: Signal<Callback>, callback: Callback) {
+  constructor(signal: Signal<Callback>, callback: SignalCallback<Callback>) {
     this.signal = signal
     this.callback = callback
   }
