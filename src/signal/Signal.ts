@@ -95,4 +95,9 @@ export class Signal<
     this._listeners.delete(listener)
     this._onceListeners.delete(listener)
   }
+
+  clear() {
+    this._listeners.clear()
+    this._onceListeners.clear()
+  }
 }
