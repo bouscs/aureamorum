@@ -1,13 +1,11 @@
 export const watch = <
   This,
   Value extends Record<string | symbol | number, any>
->(
-  options: {
-    watchedProperties: (keyof Value)[]
-    reflectChanges?: keyof This,
-    onChange?: (this: This, )
-  }
-) => {
+>(options: {
+  watchedProperties: (keyof Value)[]
+  reflectChanges?: keyof This
+  // onChange?: (this: This, )
+}) => {
   return function (
     value: ((this: This) => Value) | ClassAccessorDecoratorTarget<This, Value>,
     context:
@@ -17,9 +15,7 @@ export const watch = <
     if (context.kind === 'accessor') {
       value = value as ClassAccessorDecoratorTarget<This, Value>
 
-      return {
-
-      }
+      return {}
     }
   }
 }
