@@ -41,10 +41,12 @@ export class EmitterPromise<
       executor({
         resolve: (value: T) => {
           emitter.emit('resolve', value)
+          emitter.clear()
           resolve(value)
         },
         reject: (reason?: any) => {
           emitter.emit('reject', reason)
+          emitter.clear()
           reject(reason)
         },
         abort: () => {
@@ -58,6 +60,7 @@ export class EmitterPromise<
         emit: emitter.emit.bind(emitter)
       }).then(value => {
         emitter.emit('resolve', value)
+        emitter.clear()
         resolve(value)
       })
     })

@@ -48,4 +48,8 @@ export class EventEmitter<Events extends EventList = EventList> {
       }) as any)
     })
   }
+
+  clear() {
+    this._e3.removeAllListeners()
+  }
 }
