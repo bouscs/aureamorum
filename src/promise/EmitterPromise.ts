@@ -6,7 +6,7 @@ export interface EmitterPromiseEvents<T> {
   reject: (reason?: any) => void
   abort: () => void
   error: (reason: any) => void
-  progress: (value: number) => void
+  progress: (value: number, message?: string, data?: any) => void
 }
 
 export class EmitterPromise<
@@ -34,7 +34,7 @@ export class EmitterPromise<
       off: EventEmitter<Events>['off']
       emit: EventEmitter<Events>['emit']
       waitFor: EventEmitter<Events>['waitFor']
-    }) => Promise<void>
+    }) => Promise<T>
   ) {
     const emitter = new EventEmitter<EmitterPromiseEvents<T>>()
     super((resolve, reject, abort) => {
@@ -56,9 +56,9 @@ export class EmitterPromise<
         off: emitter.off.bind(emitter),
         waitFor: emitter.waitFor.bind(emitter) as any,
         emit: emitter.emit.bind(emitter)
-      }).then(() => {
-        emitter.emit('resolve', undefined as any)
-        resolve(undefined as any)
+      }).then(value => {
+        emitter.emit('resolve', value)
+        resolve(value)
       })
     })
 
