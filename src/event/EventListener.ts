@@ -3,7 +3,7 @@ import { EventEmitter } from './EventEmitter'
 import { EventList } from './types'
 
 export class EventListener<
-  Events extends EventList = any,
+  Events extends EventList = EventList,
   EventName extends keyof Events = any
 > {
   callback: Events[EventName]

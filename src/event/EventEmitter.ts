@@ -5,6 +5,8 @@ import { EventListener } from './EventListener'
 export class EventEmitter<Events extends EventList = EventList> {
   private _e3 = new EventEmitter3()
 
+  declare $events: Events
+
   on<EventName extends keyof Events>(
     eventName: EventName,
     listener: Events[EventName]
@@ -32,9 +34,9 @@ export class EventEmitter<Events extends EventList = EventList> {
 
   emit<EventName extends keyof Events>(
     eventName: EventName,
-    ...args: EventArgs<Events, EventName>
+    ...args: Parameters<Events[EventName]>
   ) {
-    this._e3.emit(eventName as any, ...args)
+    this._e3.emit(eventName as any, ...(args as any))
   }
 
   async waitFor<EventName extends keyof Events>(

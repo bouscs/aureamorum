@@ -1,9 +1,6 @@
 import { EventEmitter } from './EventEmitter'
 
-export type EventList = Record<
-  string | number | symbol,
-  (...args: any[]) => void
->
+export type EventList = Record<never, (...args: any[]) => void>
 
 export type EventListOf<T> = T extends EventEmitter<infer E> ? E : never
 
