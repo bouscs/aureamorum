@@ -1,4 +1,4 @@
-import { EventEmitter } from '../event'
+import { EventEmitter, EventList } from '../event'
 import { Signal } from './Signal'
 import { SignalCallback } from './types'
 
@@ -17,7 +17,7 @@ export class SignalListener<Callback extends (...args: any[]) => void> {
   }
 
   until<T>(promise: Promise<T>): Promise<T>
-  until<E>(emitter: EventEmitter<E>, event: keyof E): void
+  until<E extends EventList>(emitter: EventEmitter<E>, event: keyof E): void
   until(emitter: any, event?: any): void | Promise<any> {
     if (emitter instanceof EventEmitter) {
       emitter.once(event, this.off.bind(this))

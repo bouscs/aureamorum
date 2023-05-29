@@ -1,7 +1,7 @@
-import { EventEmitter } from '../event'
+import { EventEmitter, EventList } from '../event'
 import { Signal } from '../signal'
 
-export interface ClockEvents {
+export interface ClockEvents extends EventList {
   update: (delta: number, time: number) => void
   fixedUpdate: (time: number) => void
 }

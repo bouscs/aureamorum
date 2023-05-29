@@ -1,7 +1,11 @@
 import { Signal } from '../signal'
 import { EventEmitter } from './EventEmitter'
+import { EventList } from './types'
 
-export class EventListener<Events = any, EventName extends keyof Events = any> {
+export class EventListener<
+  Events extends EventList = any,
+  EventName extends keyof Events = any
+> {
   callback: Events[EventName]
   emitter: EventEmitter<Events>
 
@@ -22,7 +26,7 @@ export class EventListener<Events = any, EventName extends keyof Events = any> {
   }
 
   until(signal: Signal): Signal
-  until<E>(emitter: EventEmitter<E>, event: keyof E): void
+  until<E extends EventList>(emitter: EventEmitter<E>, event: keyof E): void
   until(emitter: any, event?: any): void | Signal {
     if (emitter instanceof EventEmitter) {
       emitter.once(event, this.off.bind(this))
