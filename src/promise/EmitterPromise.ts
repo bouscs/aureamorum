@@ -18,22 +18,26 @@ export class EmitterPromise<
       resolve: (value: T) => void
       reject: (reason?: any) => void
       abort: () => void
-      emit: <EventName extends keyof Events>(
-        eventName: EventName,
-        ...args: EventArgs<Events, EventName>
-      ) => void
+
+      on: EventEmitter<Events>['on']
+      once: EventEmitter<Events>['once']
+      off: EventEmitter<Events>['off']
+      emit: EventEmitter<Events>['emit']
+      waitFor: EventEmitter<Events>['waitFor']
     }) => void
   ) {
-    let emitter!: EventEmitter<Events>
+    const emitter = new EventEmitter<Events>()
     super((resolve, reject, abort) => {
-      emitter = new EventEmitter()
-
       executor({
         resolve,
         reject,
         abort: () => {
           abort.call()
         },
+        on: emitter.on.bind(emitter),
+        once: emitter.once.bind(emitter),
+        off: emitter.off.bind(emitter),
+        waitFor: emitter.waitFor.bind(emitter),
         emit: emitter.emit.bind(emitter)
       })
     })
@@ -57,7 +61,7 @@ export class EmitterPromise<
       | null
       | undefined
   ): Promise<TResult1 | TResult2> {
-    return new EmitterPromise(({ resolve, reject, abort, emit }) => {
+    return new AbortPromise((resolve, reject, abort) => {
       this.abort.once(() => {
         abort()
       })
@@ -69,11 +73,13 @@ export class EmitterPromise<
         emit(eventName, ...args)
       }
 
-      this.on('error', reject as any)
-      this.then(onfulfilled, onrejected)
+      on('error', reject as any)
+
+      super
+        .then(onfulfilled, onrejected)
         .then(resolve, reject)
         .finally(() => {
-          this.off('error', reject as any)
+          off('error', reject as any)
           abort()
         })
     })
