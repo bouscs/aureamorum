@@ -4,42 +4,25 @@ import { ManualPromise } from './ManualPromise'
 export class AbortPromise<T> extends ManualPromise<T> {
   public readonly abort: Signal
 
-  private innerPromise: Promise<T>
-
   constructor(
     executor: (
-      resolve: (value: T | PromiseLike<T>) => void,
+      resolve: (value: T) => void,
       reject: (reason?: any) => void,
       abort: Signal
-    ) => void
+    ) => void,
+    abortSignal?: Signal
   ) {
-    const abort = new Signal()
+    const abort = abortSignal || new Signal({ once: true })
 
     super()
 
-    abort.once(() => {
-      this.reject(new Error('Aborted'))
-      abort.clear()
-    })
-
     this.abort = abort
 
-    this.innerPromise = new Promise<T>((resolve, reject) => {
-      executor(resolve, reject, abort)
+    this.abort.then(() => {
+      this.reject(undefined)
     })
 
-    this.innerPromise
-      .then(value => {
-        this.resolve(value)
-      })
-      .catch(reason => {
-        this.reject(reason)
-      })
-      .finally(() => {
-        abort.clear()
-      })
-
-    this.then = this.innerPromise.then.bind(this.innerPromise)
+    executor(this.resolve.bind(this), this.reject.bind(this), abort)
   }
 
   // then<TResult1 = T, TResult2 = never>(
@@ -53,15 +36,7 @@ export class AbortPromise<T> extends ManualPromise<T> {
   //     | undefined
   // ): Promise<TResult1 | TResult2> {
   //   return new Promise((resolve, reject) => {
-  //     console.log('AbortPromise.then')
-  //     console.log(resolve)
-  //     if (this.abort.called) {
-  //       reject(new Error('Aborted'))
-  //     } else {
-  //       this.abort.once(() => {
-  //         reject(new Error('Aborted'))
-  //       })
-  //     }
+  //     this.abort.then(reject)
 
   //     super.then(onfulfilled, onrejected).then(resolve, reject)
   //   })

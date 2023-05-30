@@ -1,5 +1,7 @@
 import { EventArgs, EventEmitter, EventList } from '../event'
+import { Signal } from '../signal'
 import { AbortPromise } from './AbortPromise'
+import { ManualPromise } from './ManualPromise'
 
 export interface EmitterPromiseEvents<T> {
   resolve: (value: T) => void
@@ -8,6 +10,11 @@ export interface EmitterPromiseEvents<T> {
   error: (reason: any) => void
   progress: (value: number, message?: string, data?: any) => void
 }
+
+export type EmitterPromiseExecutorResult<T> =
+  | T
+  | Promise<any>
+  | ((...args: any) => EmitterPromiseExecutorResult<any>)[]
 
 export class EmitterPromise<
   T,
@@ -21,13 +28,9 @@ export class EmitterPromise<
   public emit: EventEmitter<Events>['emit']
   public waitFor: EventEmitter<Events>['waitFor']
 
-  a!: Events
-
   constructor(
     executor: (options: {
-      resolve: (value: T) => void
-      reject: (reason?: any) => void
-      abort: () => void
+      abort: Signal
 
       on: EventEmitter<Events>['on']
       once: EventEmitter<Events>['once']
@@ -39,30 +42,27 @@ export class EmitterPromise<
     const emitter = new EventEmitter<EmitterPromiseEvents<T>>()
     super((resolve, reject, abort) => {
       executor({
-        resolve: (value: T) => {
-          emitter.emit('resolve', value)
-          emitter.clear()
-          resolve(value)
-        },
-        reject: (reason?: any) => {
-          emitter.emit('reject', reason)
-          emitter.clear()
-          reject(reason)
-        },
-        abort: () => {
-          emitter.emit('abort')
-          abort.call()
-        },
+        abort,
         on: emitter.on.bind(emitter) as any,
         once: emitter.once.bind(emitter) as any,
         off: emitter.off.bind(emitter),
         waitFor: emitter.waitFor.bind(emitter) as any,
         emit: emitter.emit.bind(emitter)
-      }).then(value => {
-        emitter.emit('resolve', value)
-        emitter.clear()
-        resolve(value)
       })
+        .then(
+          res => {
+            resolve(res)
+          },
+          reason => {
+            reject(reason)
+          }
+        )
+        .catch(reason => {
+          reject(reason)
+        })
+        .finally(() => {
+          emitter.clear()
+        })
     })
 
     this.emitter = emitter as any
@@ -72,5 +72,55 @@ export class EmitterPromise<
     this.off = this.emitter.off.bind(this.emitter)
     this.emit = this.emitter.emit.bind(this.emitter)
     this.waitFor = this.emitter.waitFor.bind(this.emitter)
+  }
+
+  static sequence<
+    T,
+    Events extends EmitterPromiseEvents<T> = EmitterPromiseEvents<T>
+  >(
+    sequenceCreator: (options: {
+      abort: Signal
+
+      on: EventEmitter<Events>['on']
+      once: EventEmitter<Events>['once']
+      off: EventEmitter<Events>['off']
+      emit: EventEmitter<Events>['emit']
+      waitFor: EventEmitter<Events>['waitFor']
+    }) => ((...args: any) => any)[]
+  ) {
+    return new EmitterPromise<T, Events>(async options => {
+      const sequence = sequenceCreator(options)
+      let result: any = null
+      let rejected = false
+      for (const item of sequence) {
+        if (options.abort.called) {
+          return Promise.reject()
+        }
+
+        const newResult = item(result)
+
+        if (newResult instanceof Promise) {
+          result = await newResult
+            .then(
+              value => value,
+              reason => {
+                rejected = true
+                return Promise.reject(reason)
+              }
+            )
+            .catch(reason => {
+              rejected = true
+              return Promise.reject(reason)
+            })
+          if (rejected) {
+            return Promise.reject(result)
+          }
+        } else {
+          result = newResult
+        }
+      }
+
+      return result
+    })
   }
 }

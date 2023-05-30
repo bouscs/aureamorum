@@ -1,4 +1,5 @@
 export class ManualPromise<T> extends Promise<T> {
+  private inner: Promise<T>
   private _resolve!: (value: T | PromiseLike<T>) => void
   private _reject!: (reason: any) => void
 
@@ -7,55 +8,53 @@ export class ManualPromise<T> extends Promise<T> {
   private value!: T
 
   constructor() {
+    let _innerResolve!: (value: T | PromiseLike<T>) => void
+    let _innerReject!: (reason: any) => void
     let _resolve!: (value: T | PromiseLike<T>) => void
     let _reject!: (reason: any) => void
+
+    const inner = new Promise<T>((resolve, reject) => {
+      _innerResolve = resolve
+      _innerReject = reject
+    })
 
     super((resolve, reject) => {
       _resolve = resolve
       _reject = reject
     })
 
-    this._resolve = _resolve as any
-    this._reject = _reject
-  }
+    this._resolve = _innerResolve
+    this._reject = _innerReject
 
-  then<TResult1 = T, TResult2 = never>(
-    onfulfilled?:
-      | ((value: T) => TResult1 | PromiseLike<TResult1>)
-      | null
-      | undefined,
-    onrejected?:
-      | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-      | null
-      | undefined
-  ): Promise<TResult1 | TResult2> {
-    if (this.status === 'resolved')
-      return Promise.resolve(this.value).then(onfulfilled)
-    if (this.status === 'rejected')
-      return Promise.reject(this.value).then(onrejected)
-    return new Promise((resolve, reject) => {
-      const _resolve = this._resolve
-      const _reject = this._reject
-      this._resolve = (value: T | PromiseLike<T>) => {
+    this.inner = inner.then(
+      value => {
+        this.status = 'resolved'
+        this.value = value
         _resolve(value)
-        resolve(Promise.resolve(value).then(onfulfilled))
+
+        return value
+      },
+      reason => {
+        this.status = 'rejected'
+        this.value = reason
+        _reject(reason)
+
+        return reason
       }
-      this._reject = (value: T) => {
-        _reject(value)
-        reject(Promise.reject(value).then(onrejected))
-      }
-    })
+    )
+
+    this.then = this.inner.then.bind(this.inner)
   }
 
   resolve(value: T) {
-    this.value = value
-    this.status = 'resolved'
+    if (this.status !== 'pending') return
+
     this._resolve(value)
   }
 
   reject(value: any) {
-    this.value = value
-    this.status = 'rejected'
+    if (this.status !== 'pending') return
+
     this._reject(value)
   }
 }

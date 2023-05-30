@@ -44,6 +44,10 @@ export class Signal<
       | undefined
   ): Promise<TResult1 | TResult2> {
     return new Promise<void>((resolve: () => void) => {
+      if (this._called && this.isOnce) {
+        resolve()
+        return
+      }
       this.once((() => {
         resolve()
       }) as Callback)
