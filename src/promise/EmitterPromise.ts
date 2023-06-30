@@ -86,14 +86,17 @@ export class EmitterPromise<
       off: EventEmitter<Events>['off']
       emit: EventEmitter<Events>['emit']
       waitFor: EventEmitter<Events>['waitFor']
-    }) => ((...args: any) => any)[]
+    }) => ((...args: any) => any)[],
+    options?: {
+      afterEach?: (value?: any) => Promise<any>
+    }
   ) {
-    return new EmitterPromise<T, Events>(async options => {
-      const sequence = sequenceCreator(options)
+    return new EmitterPromise<T, Events>(async opt => {
+      const sequence = sequenceCreator(opt)
       let result: any = null
       let rejected = false
       for (const item of sequence) {
-        if (options.abort.called) {
+        if (opt.abort.called) {
           return Promise.reject()
         }
 
@@ -117,6 +120,10 @@ export class EmitterPromise<
           }
         } else {
           result = newResult
+        }
+
+        if (options?.afterEach) {
+          await options.afterEach(result)
         }
       }
 
