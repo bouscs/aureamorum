@@ -3,8 +3,7 @@ export const watch = <
   Value extends Record<string | symbol | number, any>
 >({
   watchedProperties,
-  onPropertiesChange,
-  onSet
+  onPropertiesChange
 }: {
   watchedProperties: (keyof Value)[]
   reflectChanges?: keyof This
@@ -12,8 +11,7 @@ export const watch = <
   onSet?: (this: This, value: Value) => void
 }) => {
   return function (
-    value: ClassAccessorDecoratorTarget<This, Value>,
-    context: ClassAccessorDecoratorContext<This, Value>
+    value: ClassAccessorDecoratorTarget<This, Value>
   ): ClassAccessorDecoratorResult<This, Value> {
     return {
       get(this: This) {

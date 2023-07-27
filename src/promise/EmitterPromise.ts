@@ -1,7 +1,6 @@
-import { EventArgs, EventEmitter, EventList } from '../event'
+import { EventEmitter } from '../event'
 import { Signal } from '../signal'
 import { AbortPromise } from './AbortPromise'
-import { ManualPromise } from './ManualPromise'
 
 export interface EmitterPromiseEvents<T> {
   resolve: (value: T) => void

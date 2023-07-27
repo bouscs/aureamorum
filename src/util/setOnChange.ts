@@ -6,6 +6,7 @@ export const setOnChange = <
   reflectChanges?: keyof This
   // onChange?: (this: This, )
 }) => {
+  options
   return function (
     value: ((this: This) => Value) | ClassAccessorDecoratorTarget<This, Value>,
     context:

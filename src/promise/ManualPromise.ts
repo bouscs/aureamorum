@@ -5,8 +5,6 @@ export class ManualPromise<T> extends Promise<T> {
 
   status: 'pending' | 'resolved' | 'rejected' = 'pending'
 
-  private value!: T
-
   constructor() {
     let _innerResolve!: (value: T | PromiseLike<T>) => void
     let _innerReject!: (reason: any) => void
@@ -29,14 +27,12 @@ export class ManualPromise<T> extends Promise<T> {
     this.inner = inner.then(
       value => {
         this.status = 'resolved'
-        this.value = value
         _resolve(value)
 
         return value
       },
       reason => {
         this.status = 'rejected'
-        this.value = reason
         _reject(reason)
 
         return reason
