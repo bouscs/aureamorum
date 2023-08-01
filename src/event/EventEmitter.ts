@@ -34,7 +34,9 @@ export class EventEmitter<Events extends EventList = EventList> {
 
   emit<EventName extends keyof Events>(
     eventName: EventName,
-    ...args: Parameters<Events[EventName]>
+    ...args: Events[EventName] extends (...args: any[]) => void
+      ? Parameters<Events[EventName]>
+      : never
   ) {
     this._e3.emit(eventName as any, ...(args as any))
   }

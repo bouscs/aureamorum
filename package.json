@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "build:watch": "tsc --project tsconfig.json --watch"
+    "build:watch": "tsc --project tsconfig.json --watch",
+    "lint": "eslint --ext .ts src",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "keywords": [],
   "author": "",
