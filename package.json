@@ -1,15 +1,22 @@
 {
   "name": "aureamorum",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "build:watch": "tsc --project tsconfig.json --watch",
     "lint": "eslint --ext .ts src",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
   },
   "keywords": [],
   "author": "",
@@ -27,5 +34,8 @@
   },
   "dependencies": {
     "eventemitter3": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

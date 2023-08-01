@@ -1,6 +1,6 @@
 import EventEmitter3 from 'eventemitter3'
-import { EventArgs, EventList } from './types'
-import { EventListener } from './EventListener'
+import { EventArgs, EventList } from './types.js'
+import { EventListener } from './EventListener.js'
 
 export class EventEmitter<Events extends EventList = EventList> {
   private _e3 = new EventEmitter3()

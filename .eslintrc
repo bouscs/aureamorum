@@ -10,7 +10,7 @@
     //"airbnb-typescript",
     "prettier"
   ],
-  "ignorePatterns": ["*.js"],
+  "ignorePatterns": ["*.js", "dist/*"],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

@@ -1,3 +1,3 @@
-export * from './EventEmitter'
-export * from './EventListener'
-export * from './types'
+export * from './EventEmitter.js'
+export * from './EventListener.js'
+export * from './types.js'
