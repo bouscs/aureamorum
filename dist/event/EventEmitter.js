@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import EventEmitter3 from 'eventemitter3';
-import { EventListener } from './EventListener';
+import { EventListener } from './EventListener.js';
 export class EventEmitter {
     constructor() {
         Object.defineProperty(this, "_e3", {

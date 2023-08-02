@@ -6,7 +6,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
+    "build": "npx rimraf dist && npx tsc --project tsconfig.json",
     "build:watch": "tsc --project tsconfig.json --watch",
     "lint": "eslint --ext .ts src",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -30,6 +30,7 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.4",
+    "rimraf": "^5.0.1",
     "typescript": "^5.0.0-beta"
   },
   "dependencies": {

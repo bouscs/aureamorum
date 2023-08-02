@@ -36,22 +36,14 @@ export class ManualPromise extends Promise {
             writable: true,
             value: 'pending'
         });
-        Object.defineProperty(this, "value", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
         this._resolve = _innerResolve;
         this._reject = _innerReject;
         this.inner = inner.then(value => {
             this.status = 'resolved';
-            this.value = value;
             _resolve(value);
             return value;
         }, reason => {
             this.status = 'rejected';
-            this.value = reason;
             _reject(reason);
             return reason;
         });

@@ -4,7 +4,7 @@
     "target": "ES2015",
     "useDefineForClassFields": true,
     "module": "ES2015",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
@@ -16,7 +16,6 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },

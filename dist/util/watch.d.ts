@@ -1,6 +1,6 @@
-export declare const watch: <This, Value extends Record<string | number | symbol, any>>({ watchedProperties, onPropertiesChange, onSet }: {
+export declare const watch: <This, Value extends Record<string | number | symbol, any>>({ watchedProperties, onPropertiesChange }: {
     watchedProperties: (keyof Value)[];
     reflectChanges?: keyof This | undefined;
     onPropertiesChange?: ((this: This, value: Value) => void) | undefined;
     onSet?: ((this: This, value: Value) => void) | undefined;
-}) => (value: ClassAccessorDecoratorTarget<This, Value>, context: ClassAccessorDecoratorContext<This, Value>) => ClassAccessorDecoratorResult<This, Value>;
+}) => (value: ClassAccessorDecoratorTarget<This, Value>) => ClassAccessorDecoratorResult<This, Value>;

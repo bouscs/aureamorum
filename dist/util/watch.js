@@ -1,5 +1,5 @@
-export const watch = ({ watchedProperties, onPropertiesChange, onSet }) => {
-    return function (value, context) {
+export const watch = ({ watchedProperties, onPropertiesChange }) => {
+    return function (value) {
         return {
             get() {
                 const target = this;
