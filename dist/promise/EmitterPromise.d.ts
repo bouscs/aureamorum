@@ -1,6 +1,6 @@
-import { EventEmitter } from '../event';
-import { Signal } from '../signal';
-import { AbortPromise } from './AbortPromise';
+import { EventEmitter } from '../event/index.js';
+import { Signal } from '../signal/index.js';
+import { AbortPromise } from './AbortPromise.js';
 export interface EmitterPromiseEvents<T> {
     resolve: (value: T) => void;
     reject: (reason?: any) => void;

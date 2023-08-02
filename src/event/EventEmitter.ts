@@ -3,6 +3,7 @@ import { EventArgs, EventList } from './types.js'
 import { EventListener } from './EventListener.js'
 
 export class EventEmitter<Events extends EventList = EventList> {
+  //@ts-ignore
   private _e3 = new EventEmitter3()
 
   declare $events: Events

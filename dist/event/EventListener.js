@@ -1,4 +1,4 @@
-import { EventEmitter } from './EventEmitter';
+import { EventEmitter } from './EventEmitter.js';
 export class EventListener {
     constructor(emitter, event, callback) {
         Object.defineProperty(this, "callback", {

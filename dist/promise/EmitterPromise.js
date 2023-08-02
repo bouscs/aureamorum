@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { EventEmitter } from '../event';
-import { AbortPromise } from './AbortPromise';
+import { EventEmitter } from '../event/index.js';
+import { AbortPromise } from './AbortPromise.js';
 export class EmitterPromise extends AbortPromise {
     constructor(executor) {
         const emitter = new EventEmitter();

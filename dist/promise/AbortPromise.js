@@ -1,5 +1,5 @@
-import { Signal } from '../signal';
-import { ManualPromise } from './ManualPromise';
+import { Signal } from '../signal/index.js';
+import { ManualPromise } from './ManualPromise.js';
 export class AbortPromise extends ManualPromise {
     constructor(executor, abortSignal) {
         const abort = abortSignal || new Signal({ once: true });

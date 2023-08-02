@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { EventEmitter } from '../event';
-import { Signal } from '../signal';
+import { EventEmitter } from '../event/index.js';
+import { Signal } from '../signal/index.js';
 export class Clock extends EventEmitter {
     constructor() {
         super(...arguments);

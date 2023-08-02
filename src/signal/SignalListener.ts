@@ -1,6 +1,6 @@
-import { EventEmitter, EventList } from '../event'
-import { Signal } from './Signal'
-import { SignalCallback } from './types'
+import { EventEmitter, EventList } from '../event/index.js'
+import { Signal } from './Signal.js'
+import { SignalCallback } from './types.js'
 
 export class SignalListener<Callback extends (...args: any[]) => void> {
   callback: SignalCallback<Callback>

@@ -1,6 +1,6 @@
-import { Signal } from '../signal';
-import { EventEmitter } from './EventEmitter';
-import { EventList } from './types';
+import { Signal } from '../signal/index.js';
+import { EventEmitter } from './EventEmitter.js';
+import { EventList } from './types.js';
 export declare class EventListener<Events extends EventList = EventList, EventName extends keyof Events = any> {
     callback: Events[EventName];
     emitter: EventEmitter<Events>;

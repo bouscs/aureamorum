@@ -1,5 +1,5 @@
-import { EventEmitter, EventList } from '../event';
-import { Signal } from '../signal';
+import { EventEmitter, EventList } from '../event/index.js';
+import { Signal } from '../signal/index.js';
 export interface ClockEvents extends EventList {
     update: (delta: number, time: number) => void;
     fixedUpdate: (time: number) => void;

@@ -1,4 +1,4 @@
-import { Signal } from '../signal'
+import { Signal } from '../signal/index.js'
 
 export async function wait(signal: Signal, times?: number): Promise<void>
 export async function wait(seconds: number): Promise<void>

@@ -1,5 +1,5 @@
-import { EventEmitter, EventListener } from '../event';
-import { NestedPartial, ObjectPath } from '../util';
+import { EventEmitter, EventListener } from '../event/index.js';
+import { NestedPartial, ObjectPath } from '../util/index.js';
 export type StoreEvents = {
     set: (options: {
         path: any;

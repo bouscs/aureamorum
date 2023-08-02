@@ -1,4 +1,4 @@
-import { EventEmitter } from './EventEmitter'
+import { EventEmitter } from './EventEmitter.js'
 
 export type EventList = Record<never, (...args: any[]) => void>
 

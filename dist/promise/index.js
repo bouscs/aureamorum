@@ -1,3 +1,3 @@
-export * from './AbortPromise';
-export * from './EmitterPromise';
-export * from './ManualPromise';
+export * from './AbortPromise.js';
+export * from './EmitterPromise.js';
+export * from './ManualPromise.js';

@@ -1,4 +1,4 @@
-import { ObjectPath } from './types'
+import { ObjectPath } from './types.js'
 
 export const setObjectPath = <T, U extends string>(
   obj: T,

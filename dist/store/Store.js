@@ -1,5 +1,5 @@
-import { EventEmitter } from '../event';
-import { setObjectPath, getObjectPath } from '../util';
+import { EventEmitter } from '../event/index.js';
+import { setObjectPath, getObjectPath } from '../util/index.js';
 export class Store extends EventEmitter {
     constructor(store) {
         super();

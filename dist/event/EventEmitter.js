@@ -11,6 +11,7 @@ import EventEmitter3 from 'eventemitter3';
 import { EventListener } from './EventListener.js';
 export class EventEmitter {
     constructor() {
+        //@ts-ignore
         Object.defineProperty(this, "_e3", {
             enumerable: true,
             configurable: true,

@@ -1,5 +1,5 @@
-import { SignalListener } from './SignalListener'
-import { SignalCallback } from './types'
+import { SignalListener } from './SignalListener.js'
+import { SignalCallback } from './types.js'
 
 export interface SignalOptions {
   once?: boolean

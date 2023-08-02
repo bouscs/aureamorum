@@ -1,5 +1,5 @@
-import { Signal } from '../signal'
-import { ManualPromise } from './ManualPromise'
+import { Signal } from '../signal/index.js'
+import { ManualPromise } from './ManualPromise.js'
 
 export class AbortPromise<T> extends ManualPromise<T> {
   public readonly abort: Signal

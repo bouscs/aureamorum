@@ -1,4 +1,4 @@
-import { SignalListener } from './SignalListener';
+import { SignalListener } from './SignalListener.js';
 export class Signal extends Promise {
     get called() {
         return this._called;
