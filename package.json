@@ -1,6 +1,6 @@
 {
   "name": "aureamorum",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -31,12 +31,12 @@
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.4",
     "rimraf": "^5.0.1",
-    "typescript": "^5.0.0-beta"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "eventemitter3": "^5.0.0"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   }
 }

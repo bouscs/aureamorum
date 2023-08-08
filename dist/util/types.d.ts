@@ -8,6 +8,7 @@ export type TupleToSum<T extends unknown[]> = T extends [infer L, ...infer R] ? 
 export type NestedPartial<T> = {
     [P in keyof T]?: T[P] extends Array<infer U> ? Array<NestedPartial<U>> : T[P] extends ReadonlyArray<infer U> ? ReadonlyArray<NestedPartial<U>> : T[P] extends Record<string | number | symbol, unknown> ? NestedPartial<T[P]> : T[P];
 };
-export type Class<T = any> = {
-    new (...args: any[]): T;
+export type Obj = Record<any, any>;
+export type Class<Instance extends Obj = Obj, ConstructorParams extends any[] = any[]> = {
+    new (...args: ConstructorParams): Instance;
 };

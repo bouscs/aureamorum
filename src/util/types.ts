@@ -32,4 +32,9 @@ export type NestedPartial<T> = {
     : T[P]
 }
 
-export type Class<T = any> = { new (...args: any[]): T }
+export type Obj = Record<any, any>
+
+export type Class<
+  Instance extends Obj = Obj,
+  ConstructorParams extends any[] = any[]
+> = { new (...args: ConstructorParams): Instance }
