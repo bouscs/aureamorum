@@ -20,7 +20,7 @@ export const trait = (options) => {
             };
         },
         of: (target) => {
-            return target.prototype[symbol];
+            return target[symbol];
         }
     };
 };
