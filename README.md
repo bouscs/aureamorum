@@ -1,0 +1,3 @@
+# aureamorum
+
+TypeScript utility library
