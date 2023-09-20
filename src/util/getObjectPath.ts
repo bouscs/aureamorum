@@ -5,6 +5,7 @@ export const getObjectPath = <T, U extends string>(
   path: U
 ): ObjectPath<T, U> => {
   const pathArray = path.split('.')
+  if (obj === undefined) return undefined as ObjectPath<T, U>
   let current: any = obj
   for (let i = 0; i < pathArray.length; i++) {
     if (current[pathArray[i]] === undefined) {
